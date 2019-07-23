@@ -154,11 +154,7 @@ def adjust_displacement(n_trials, n_accept, max_displacement):
     return max_displacement, n_trials, n_accept
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    
 
-=======
->>>>>>> fbc9b056d1994fd000067400e60b2fdc7dcdfc5e
     #------------------
     # Parameter setup
     #------------------
@@ -196,10 +192,6 @@ if __name__ == "__main__":
         current_energy = get_particle_energy(coordinates, box_length, i_particle, simulation_cutoff2)
         proposed_coordinates = coordinates.copy()
         proposed_coordinates[i_particle] += random_displacement 
-<<<<<<< HEAD
-=======
-        proposed_coordinates -= box_length * np.round(proposed_coordinates / box_length)
->>>>>>> fbc9b056d1994fd000067400e60b2fdc7dcdfc5e
         proposed_energy = get_particle_energy(proposed_coordinates, box_length, i_particle, simulation_cutoff2)
         delta_e = proposed_energy - current_energy
         accept = accept_or_reject(delta_e, beta)
@@ -216,9 +208,6 @@ if __name__ == "__main__":
                 max_displacement, n_trials, n_accept = adjust_displacement(n_trials, n_accept, max_displacement)
     #print(coordinates)
     #print(calculate_total_pair_energy(coordinates, 10.0, 9.0))
-<<<<<<< HEAD
-    #print(calculate_tail_correction(10.0, 3.0, len(coordinates)))
-=======
     #print(calculate_tail_correction(10.0, 3.0, len(coordinates)))
 
     #plt.plot(energy_array[100:], 'o')
@@ -231,4 +220,3 @@ if __name__ == "__main__":
     #ax = plt.axes(projection='3d')
     #ax.plot3D(coordinates[:,0], coordinates[:,1], coordinates[:,2], 'o')
     #plt.show()
->>>>>>> fbc9b056d1994fd000067400e60b2fdc7dcdfc5e
