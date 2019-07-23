@@ -116,57 +116,71 @@ def adjust_displacement(n_trials, n_accept, max_displacement):
     n_trials = 0
     n_accept = 0
     return max_displacement, n_trials, n_accept
-#------------------
-# Parameter setup
-#------------------
 
-reduced_temperature = 0.9
-reduced_density = 0.9
+if __name__ == "__main__":
+    #------------------
+    # Parameter setup
+    #------------------
 
-n_steps = 50000
-freq = 1000
+    reduced_temperature = 0.9
+    reduced_density = 0.9
 
-num_particles = 100
-simulation_cutoff = 3.0
-max_displacement = 0.1
-tune_displacement = True
-build_method = 'random'
-box_length = np.cbrt(num_particles / reduced_density)
-beta = 1.0 / reduced_temperature
-simulation_cutoff2 = np.power(simulation_cutoff, 2)
-n_trials = 0
-n_accept = 0
-energy_array = np.zeros(n_steps)
+    n_steps = 50000
+    freq = 1000
 
-#-----------------------
-# Monte Carlo Simulation
-#-----------------------
+    num_particles = 100
+    simulation_cutoff = 3.0
+    max_displacement = 0.1
+    tune_displacement = True
+    build_method = 'random'
+    box_length = np.cbrt(num_particles / reduced_density)
+    beta = 1.0 / reduced_temperature
+    simulation_cutoff2 = np.power(simulation_cutoff, 2)
+    n_trials = 0
+    n_accept = 0
+    energy_array = np.zeros(n_steps)
 
-coordinates = generate_initial_state(method = build_method, num_particles = num_particles, box_length = box_length)
-total_pair_energy = calculate_total_pair_energy(coordinates, box_length, simulation_cutoff2)
-tail_correction = calculate_tail_correction(box_length, simulation_cutoff, num_particles)
+    #-----------------------
+    # Monte Carlo Simulation
+    #-----------------------
 
-for i_step in range(n_steps):
-    n_trials += 1
-    i_particle = np.random.randint(num_particles)
-    random_displacement = (2.0 * np.random.rand(3) - 1.0) * max_displacement
-    current_energy = get_particle_energy(coordinates, box_length, i_particle, simulation_cutoff2)
-    proposed_coordinates = coordinates.copy()
-    proposed_coordinates[i_particle] += random_displacement 
-    proposed_energy = get_particle_energy(proposed_coordinates, box_length, i_particle, simulation_cutoff2)
-    delta_e = proposed_energy - current_energy
-    accept = accept_or_reject(delta_e, beta)
-    if accept:
-        total_pair_energy += delta_e
-        n_accept += 1
-        coordinates[i_particle] += random_displacement    
-    total_energy = (total_pair_energy + tail_correction) / num_particles
-    energy_array[i_step] = total_energy
+    coordinates = generate_initial_state(method = build_method, num_particles = num_particles, box_length = box_length)
+    total_pair_energy = calculate_total_pair_energy(coordinates, box_length, simulation_cutoff2)
+    tail_correction = calculate_tail_correction(box_length, simulation_cutoff, num_particles)
 
-    if np.mod(i_step + 1, freq) == 0:
-        print(i_step + 1, energy_array[i_step])
-        if tune_displacement:
-            max_displacement, n_trials, n_accept = adjust_displacement(n_trials, n_accept, max_displacement)
-#print(coordinates)
-#print(calculate_total_pair_energy(coordinates, 10.0, 9.0))
-#print(calculate_tail_correction(10.0, 3.0, len(coordinates)))
+    for i_step in range(n_steps):
+        n_trials += 1
+        i_particle = np.random.randint(num_particles)
+        random_displacement = (2.0 * np.random.rand(3) - 1.0) * max_displacement
+        current_energy = get_particle_energy(coordinates, box_length, i_particle, simulation_cutoff2)
+        proposed_coordinates = coordinates.copy()
+        proposed_coordinates[i_particle] += random_displacement 
+        proposed_coordinates -= box_length * np.round(proposed_coordinates / box_length)
+        proposed_energy = get_particle_energy(proposed_coordinates, box_length, i_particle, simulation_cutoff2)
+        delta_e = proposed_energy - current_energy
+        accept = accept_or_reject(delta_e, beta)
+        if accept:
+            total_pair_energy += delta_e
+            n_accept += 1
+            coordinates[i_particle] += random_displacement    
+        total_energy = (total_pair_energy + tail_correction) / num_particles
+        energy_array[i_step] = total_energy
+
+        if np.mod(i_step + 1, freq) == 0:
+            print(i_step + 1, energy_array[i_step])
+            if tune_displacement:
+                max_displacement, n_trials, n_accept = adjust_displacement(n_trials, n_accept, max_displacement)
+    #print(coordinates)
+    #print(calculate_total_pair_energy(coordinates, 10.0, 9.0))
+    #print(calculate_tail_correction(10.0, 3.0, len(coordinates)))
+
+    #plt.plot(energy_array[100:], 'o')
+    #plt.xlabel('Monte Carlo steps')
+    #plt.ylabel('Energy (reduced units)')
+    #plt.grid(True)
+    #plt.show()
+
+    #plt.figure()
+    #ax = plt.axes(projection='3d')
+    #ax.plot3D(coordinates[:,0], coordinates[:,1], coordinates[:,2], 'o')
+    #plt.show()
