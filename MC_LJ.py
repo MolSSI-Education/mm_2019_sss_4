@@ -74,6 +74,17 @@ def accept_or_reject(delta_e, beta):
     return accept
 
 def adjust_displacement(n_trials, n_accept, max_displacement):
+    """Adjusts the displacement
+    Parameters
+    ----------
+    n_trials: int
+    n_accept: int
+    max_displacement: int
+
+    Returns
+    -------
+    max_displacement, n_trials, n_accept
+    """
     acc_rate = float(n_accept)/float(n_trials)
     if (acc_rate < 0.38):
         max_displacement *= 0.8
