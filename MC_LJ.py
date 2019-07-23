@@ -60,7 +60,24 @@ def calculate_total_pair_energy(coordinates, box_length, cutoff2):
 
 def accept_or_reject(delta_e, beta):
     #This function accepts or rejects a move given the energy difference and system temperature
+    """
+    Possibility of each move trial.
+    This determines if the trial move will be accepted or rejected with some probability.
 
+    Parameters
+    ----------
+    delta_e : float
+    It is the energy difference between initial system and the changed system.
+    beta : float
+    It is the reciprocal of reduced temperature, a general constant in canonical ensemble.
+
+    Returns
+    -------
+    accept : boolean
+    If it is true, it is mean the trial move is accepted, else it is rejected.
+
+    """
+    
     if delta_e < 0.0:
         accept = True
 
