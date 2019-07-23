@@ -49,7 +49,23 @@ def lennard_jones_potential(rij2):
     return 4.0 * (sig_by_r12  - sig_by_r6)
 
 def calculate_tail_correction(box_length, cutoff, num_particles):
-    # This function computes the standard tail correction for LJ potential
+    """This function computes the standard tail correction for LJ potential.
+
+    Parameters
+    ----------
+    box_length : float
+        Length of a side of cubic simulation box.
+    cutoff : float
+        Cutoff value for LJ potential.
+    num_particles : integer
+        Number of particles in the system of interest.
+
+    Returns
+    -------
+    e_correction : float
+        Returns the energy correction term for the system.
+    """
+
     volume = np.power(box_length, 3)
     sig_by_cutoff3 = np.power(1.0 / cutoff, 3)
     sig_by_cutoff9 = np.power(sig_by_cutoff3, 3)
@@ -58,8 +74,22 @@ def calculate_tail_correction(box_length, cutoff, num_particles):
     return e_correction
 
 def minimum_image_distance(r_i, r_j, box_length):
-    # This function computes the minimum image distance between two particles
+    """This function computes the minimum image distance between two particles.
 
+    Parameters
+    ----------
+    r_i : float
+        Position of particle i
+    r_j : float
+        Position of particle j
+    box_length : float
+        Length of a side of cubic simulation box.
+
+    Returns
+    -------
+    rij2 :  float
+        Returns the square of minimum image distance between particle i and j.
+    """
     rij = r_i - r_j
     rij = rij - box_length * np.round(rij / box_length)
     rij2 = np.dot(rij, rij)
@@ -220,3 +250,4 @@ if __name__ == "__main__":
     #ax = plt.axes(projection='3d')
     #ax.plot3D(coordinates[:,0], coordinates[:,1], coordinates[:,2], 'o')
     #plt.show()
+
