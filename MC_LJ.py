@@ -1,5 +1,26 @@
 import numpy as np
 def generate_initial_state(method = 'random', file_name = None, num_particles = None, box_length = None):
+    """ Generates initial state of the system
+
+     Generates the initial coordinates of all the atoms in the simulation box. If method is random, the atoms will have a random set of coordinates.
+     If method is File then coordinates are loaded from a NIST file.
+
+    Parameters
+    ----------
+    method : str/ either 'random' or 'File'
+        A flag variable which will either be set to random or File depending on whether we have random coordinates or coordinates from a file
+    file_name :  str (filename). Default is None.
+        A flag variable which is assigned to None by default. If method is File, pass the filename as the parameter.
+    num_particles : integer. Default is none
+        Variable containing the number of particles in the simulation box.
+    box_length : float. Default is None
+        Variable containing the box length of the simulation box.
+    
+    Returns
+    -------
+    coordinates : numpy array(num_particles,3)
+        A numpy array with the x,y and z coordinates of each individual atom in the simulation box
+    """
     if method is 'random':
         coordinates = 0.5 - np.random.rand(num_particles, 3) * box_length
     
@@ -8,6 +29,21 @@ def generate_initial_state(method = 'random', file_name = None, num_particles = 
     return coordinates
 
 def lennard_jones_potential(rij2):
+    """ Computes Lennard Jones potential
+    
+    Computes the Lennard Jones potential between an atom pair.
+
+    Parameters
+    ----------
+    rij2 : float
+        square of the minimum image distance between one particular atom pair.
+
+    Returns
+    -------
+    Lennard Jones potential : float
+    Lennard Jones potential between an atom pair.
+
+    """
     sig_by_r6 = np.power(1 / rij2, 3)
     sig_by_r12 = np.power(sig_by_r6, 2)
     return 4.0 * (sig_by_r12  - sig_by_r6)
@@ -118,6 +154,7 @@ def adjust_displacement(n_trials, n_accept, max_displacement):
     return max_displacement, n_trials, n_accept
 
 if __name__ == "__main__":
+
     #------------------
     # Parameter setup
     #------------------
@@ -155,7 +192,6 @@ if __name__ == "__main__":
         current_energy = get_particle_energy(coordinates, box_length, i_particle, simulation_cutoff2)
         proposed_coordinates = coordinates.copy()
         proposed_coordinates[i_particle] += random_displacement 
-        proposed_coordinates -= box_length * np.round(proposed_coordinates / box_length)
         proposed_energy = get_particle_energy(proposed_coordinates, box_length, i_particle, simulation_cutoff2)
         delta_e = proposed_energy - current_energy
         accept = accept_or_reject(delta_e, beta)
