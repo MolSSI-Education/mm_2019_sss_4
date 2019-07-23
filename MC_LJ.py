@@ -30,7 +30,24 @@ def minimum_image_distance(r_i, r_j, box_length):
     return rij2
 
 def get_particle_energy(coordinates, box_length, i_particle, cutoff2):
-    #This fucntion computes the energy of a particle with the rest of the system
+    """This function computes the energy of a particle with the rest of the system.
+    
+    Parameters
+    ----------
+    coordinates : np.array
+        An array of atomic coordinates. Size should be (n, 3) where n is the number of particles.
+    box_length : float
+        Side of a cubic simulation box.
+    i_particle : integer
+        Particle whose energy is computed.
+    cutoff2: float 
+        Square of cutoff value for Lennard Jones potential.
+    
+    Returns
+    -------
+    e_total : float
+        Returns the total energy of particle_i.
+    """
 
     e_total = 0.0
     i_position = coordinates[i_particle]
@@ -45,7 +62,22 @@ def get_particle_energy(coordinates, box_length, i_particle, cutoff2):
     return e_total
 
 def calculate_total_pair_energy(coordinates, box_length, cutoff2):
+    """This function computes the total energy of the system.
     
+    Parameters
+    ----------
+    coordinates : np.array
+        An array of atomic coordinates. Size should be (n, 3) where n is the number of particles.
+    box_length : float
+        Side of a cubic simulation box.
+    cutoff2: float 
+        Square of cutoff value for Lennard Jones potential.
+    
+    Returns
+    -------
+    e_total : float
+        Returns the total energy of the system.
+    """
     e_total = 0.0
     particle_count = len(coordinates)
     for i_particle in range(particle_count):
