@@ -1,20 +1,20 @@
 import numpy as np
 def generate_initial_state(method = 'random', file_name = None, num_particles = None, box_length = None):
-    """ Generate initial state
+    """ Generates initial state of the system
 
-     Generate the initial coordinates of all the atoms in the simulation box. If method is random the atoms will have a random set of coordinates.
-     If method is File then coordinates are loaded from a NIST fie
+     Generates the initial coordinates of all the atoms in the simulation box. If method is random, the atoms will have a random set of coordinates.
+     If method is File then coordinates are loaded from a NIST file.
 
     Parameters
     ----------
-    method: str/ either 'random' or 'File'
+    method : str/ either 'random' or 'File'
         A flag variable which will either be set to random or File depending on whether we have random coordinates or coordinates from a file
     file_name :  str (filename). Default is None.
-        A flag variable which is assigned to None by default. If method is File pass the filename for this parameter
-    num_particles : int. Default is none
-        Variable containing the number of particles in the simulation box
+        A flag variable which is assigned to None by default. If method is File, pass the filename as the parameter.
+    num_particles : integer. Default is none
+        Variable containing the number of particles in the simulation box.
     box_length : float. Default is None
-        Variable containing the box length of the simulation box
+        Variable containing the box length of the simulation box.
     
     Returns
     -------
@@ -29,17 +29,19 @@ def generate_initial_state(method = 'random', file_name = None, num_particles = 
     return coordinates
 
 def lennard_jones_potential(rij2):
-    """ Find LJ potential
-    Find the LJ potential of a particular atom pair
+    """ Computes Lennard Jones potential
+    
+    Computes the Lennard Jones potential between an atom pair.
 
     Parameters
     ----------
-    rij2: float
-        square of the minimum image distance between one particular atom pair
+    rij2 : float
+        square of the minimum image distance between one particular atom pair.
 
     Returns
     -------
-    A direct value of the LJ potential value between an atom pair
+    Lennard Jones potential : float
+    Lennard Jones potential between an atom pair.
 
     """
     sig_by_r6 = np.power(1 / rij2, 3)
