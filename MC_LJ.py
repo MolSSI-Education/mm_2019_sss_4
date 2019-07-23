@@ -2,7 +2,7 @@ import numpy as np
 def generate_initial_state(method = 'random', file_name = None, num_particles = None, box_length = None):
     if method is 'random':
         coordinates = 0.5 - np.random.rand(num_particles, 3) * box_length
-    
+
     elif method is 'file':
         coordinates = np.loadtxt(file_name, skiprows = 2, usecols=(1, 2, 3))
     return coordinates
@@ -13,7 +13,22 @@ def lennard_jones_potential(rij2):
     return 4.0 * (sig_by_r12  - sig_by_r6)
 
 def calculate_tail_correction(box_length, cutoff, num_particles):
-    # This function computes the standard tail correction for LJ potential
+    """This function computes the standard tail correction for LJ potential
+
+    Parameters
+    ----------
+    box_length : float
+        Length of a side of cubic simulation box.
+    cutoff : float
+        Cutoff value for LJ potential.
+    num_particles : integer
+        Number of particles in the system of interest.
+
+    Returns
+    -------
+    e_correction : float
+        Returns the energy correction term for the system.
+    """
     volume = np.power(box_length, 3)
     sig_by_cutoff3 = np.power(1.0 / cutoff, 3)
     sig_by_cutoff9 = np.power(sig_by_cutoff3, 3)
@@ -22,32 +37,29 @@ def calculate_tail_correction(box_length, cutoff, num_particles):
     return e_correction
 
 def minimum_image_distance(r_i, r_j, box_length):
-    # This function computes the minimum image distance between two particles
+    """This function computes the minimum image distance between two particles.
 
+    Parameters
+    ----------
+    r_i : float
+        Position of particle i
+    r_j : float
+        Position of particle j
+    box_length : float
+        Length of a side of cubic simulation box.
+
+    Returns
+    -------
+    rij2 :  float
+        Returns the minimum distance between particle i and j based on the image.
+    """
     rij = r_i - r_j
     rij = rij - box_length * np.round(rij / box_length)
     rij2 = np.dot(rij, rij)
     return rij2
 
 def get_particle_energy(coordinates, box_length, i_particle, cutoff2):
-    """This function computes the energy of a particle with the rest of the system.
-    
-    Parameters
-    ----------
-    coordinates : np.array
-        An array of atomic coordinates. Size should be (n, 3) where n is the number of particles.
-    box_length : float
-        Side of a cubic simulation box.
-    i_particle : integer
-        Particle whose energy is computed.
-    cutoff2: float 
-        Square of cutoff value for Lennard Jones potential.
-    
-    Returns
-    -------
-    e_total : float
-        Returns the total energy of particle_i.
-    """
+    #This fucntion computes the energy of a particle with the rest of the system
 
     e_total = 0.0
     i_position = coordinates[i_particle]
@@ -62,22 +74,7 @@ def get_particle_energy(coordinates, box_length, i_particle, cutoff2):
     return e_total
 
 def calculate_total_pair_energy(coordinates, box_length, cutoff2):
-    """This function computes the total energy of the system.
-    
-    Parameters
-    ----------
-    coordinates : np.array
-        An array of atomic coordinates. Size should be (n, 3) where n is the number of particles.
-    box_length : float
-        Side of a cubic simulation box.
-    cutoff2: float 
-        Square of cutoff value for Lennard Jones potential.
-    
-    Returns
-    -------
-    e_total : float
-        Returns the total energy of the system.
-    """
+
     e_total = 0.0
     particle_count = len(coordinates)
     for i_particle in range(particle_count):
@@ -102,14 +99,14 @@ def accept_or_reject(delta_e, beta):
         if random_number < p_acc:
             accept = True
         else:
-            accept = False  
+            accept = False
     return accept
 
 def adjust_displacement(n_trials, n_accept, max_displacement):
     acc_rate = float(n_accept)/float(n_trials)
     if (acc_rate < 0.38):
         max_displacement *= 0.8
-    
+
     elif (acc_rate > 0.42):
         max_displacement *= 1.2
 
@@ -152,14 +149,14 @@ for i_step in range(n_steps):
     random_displacement = (2.0 * np.random.rand(3) - 1.0) * max_displacement
     current_energy = get_particle_energy(coordinates, box_length, i_particle, simulation_cutoff2)
     proposed_coordinates = coordinates.copy()
-    proposed_coordinates[i_particle] += random_displacement 
+    proposed_coordinates[i_particle] += random_displacement
     proposed_energy = get_particle_energy(proposed_coordinates, box_length, i_particle, simulation_cutoff2)
     delta_e = proposed_energy - current_energy
     accept = accept_or_reject(delta_e, beta)
     if accept:
         total_pair_energy += delta_e
         n_accept += 1
-        coordinates[i_particle] += random_displacement    
+        coordinates[i_particle] += random_displacement
     total_energy = (total_pair_energy + tail_correction) / num_particles
     energy_array[i_step] = total_energy
 
