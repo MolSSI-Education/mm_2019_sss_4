@@ -187,27 +187,30 @@ def accept_or_reject(delta_e, beta):
     return accept
 
 def adjust_displacement(n_trials, n_accept, max_displacement):
-    """This function adjusts the maximum displacement to change the acceptance criteria \
+    """This function adjusts the maximum value allowed for a displacement move.
+    
+    This function adjusts the maximum displacement to change the acceptance criteria \
     to get the desired rate. That is, when the acceptance rate is too high, the maximum \
     displacement is adjusted to be higher and when the acceptance rate is too low, the \
     maximum displacement is adjusted to be lower.
+    
     Parameters
     ----------
     n_trials : int
-        The number of trials that have been performed when the funtction is intiated.
+        The number of trials that have been performed when the funtction is called.
     n_accept: int
-        The number of current accepted trials when the function is initiated.
+        The number of current accepted trials when the function is called.
     max_displacement: float
-        The maximum displacement value resulted from the trial.
+        The maximum displacement value allowed for any step in the simulation.
     
     Returns
     -------
     n_trials: int
-        The new number of trials.
+        The new number of trials. Updated to zero if maximum displacement is updated.
     n_accept: int
         The new number of trials.
     max_displacemnt: float
-        max_displacement when accepted.
+        max_displacement when accepted. Updated to zero if maximum displacement is updated.
     """
     acc_rate = float(n_accept)/float(n_trials)
     if (acc_rate < 0.38):
