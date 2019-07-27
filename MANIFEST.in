@@ -1,0 +1,6 @@
+include LICENSE
+include MANIFEST.in
+include versioneer.py
+
+graft mc_lj_potential
+global-exclude *.py[cod] __pycache__ *.so
