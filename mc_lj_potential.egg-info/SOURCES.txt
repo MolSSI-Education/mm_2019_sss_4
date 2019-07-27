@@ -1,0 +1,17 @@
+LICENSE
+MANIFEST.in
+README.md
+setup.cfg
+setup.py
+versioneer.py
+mc_lj_potential/__init__.py
+mc_lj_potential/_version.py
+mc_lj_potential/mc_lj_potential.py
+mc_lj_potential.egg-info/PKG-INFO
+mc_lj_potential.egg-info/SOURCES.txt
+mc_lj_potential.egg-info/dependency_links.txt
+mc_lj_potential.egg-info/top_level.txt
+mc_lj_potential/data/README.md
+mc_lj_potential/data/look_and_say.dat
+mc_lj_potential/tests/__init__.py
+mc_lj_potential/tests/test_mc_lj_potential.py
