@@ -63,7 +63,7 @@ class MCState:
         return self.tail_correction
 
     def calculate_unit_energy(self):
-        self.unit_energy=(self.total_pair_energy + self.tail_correction)/len(self.box1.coordinates)
+        self.unit_energy=(self.total_pair_energy + self.tail_correction)/self.box1.num_particles
         return self.unit_energy
     
     def get_particle_energy(self, i_particle):
@@ -227,8 +227,8 @@ if __name__ == "__main__":
         if accept:
             total_pair_energy += delta_e
             n_accept += 1
-            coordinates[i_particle] += random_displacement    
-        total_energy = (total_pair_energy + tail_correction) / num_particles
+            coordinates[i_particle] += random_displacement 
+        total_energy = mcs_final.calculate_unit_energy()
         energy_array[i_step] = total_energy
 
         if np.mod(i_step + 1, freq) == 0:
