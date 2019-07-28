@@ -9,7 +9,8 @@ import sys
 import numpy as np
 import random
 import os
-
+import random
+import math
 def test_generate_initial_state():
     """Tests initial state if the length of the coordinates matches the number of the particles provided.
     Parameters
@@ -50,3 +51,24 @@ def test_total_pair_energy():
     calculated_value = mcs.calculate_total_pair_energy()
 
     assert np.isclose(calculated_value, -4.4675E+03)
+
+def test_minimum_image_distance():
+    """Tests if the particle is bounded with in the box
+    Parameters
+    ----------
+    coordinates : np.array
+    box_length : float
+    
+    Returns
+    -------
+    minimum image distance : float
+
+    """
+    r_i = np.array([2.08728997, -0.60907129, -1.75467417])
+    r_j = np.array([1.91098003, 0.8518106,  2.06060399])
+    box_length = 4.0
+
+    bx = mc_lj_potential.Box(box_length)
+    calculated = bx.minimum_image_distance(r_i, r_j, box_length)
+    calculated = math.sqrt(calculated)
+    assert calculated < box_length
