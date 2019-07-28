@@ -38,12 +38,13 @@ class MCState:
     def __init__(self,box1,cutoff):
         self.box1=box1
         self.cutoff=cutoff
-        self.total_pair_energy=0.0
+#        self.total_pair_energy=0.0
+#        self.particle_energy=0.0
         self.tail_correction=0.0
-        self.total_energy=0.0
-        self.particle_energy=0.0
+        self.unit_energy=0.0
     
     def calculate_total_pair_energy(self):
+        self.total_pair_energy=0.0
         particle_count = len(self.box1.coordinates)
         for i_particle in range(particle_count):
             for j_particle in range(i_particle):
@@ -58,7 +59,7 @@ class MCState:
         sig_by_cutoff3 = np.power(1.0 / self.cutoff, 3)
         sig_by_cutoff9 = np.power(sig_by_cutoff3, 3)
         self.tail_correction = sig_by_cutoff9 - 3.0 * sig_by_cutoff3
-        self.tail_correction *= (8.0 / 9.0) * np.pi * len(self.box1.coordinates) * len(self.box1.coordinates)/ self.box1.volume
+        self.tail_correction *= (8.0 / 9.0) * np.pi * self.box1.num_particles * self.box1.num_particles/ self.box1.volume
         return self.tail_correction
 
     def calculate_unit_energy(self):
@@ -66,6 +67,7 @@ class MCState:
         return self.unit_energy
     
     def get_particle_energy(self, i_particle):
+        self.particle_energy = 0.0
         i_position = self.box1.coordinates[i_particle]
         particle_count = len(self.box1.coordinates)
         for j_particle in range(particle_count):
@@ -189,7 +191,7 @@ if __name__ == "__main__":
     n_steps = 50000
     freq = 1000
 
-    num_particles = 30
+    num_particles = 100
     simulation_cutoff = 3.0
     max_displacement = 0.1
     tune_displacement = True
@@ -218,7 +220,8 @@ if __name__ == "__main__":
         current_energy = mcs.get_particle_energy(i_particle)
         proposed_coordinates = coordinates.copy()
         proposed_coordinates[i_particle] += random_displacement 
-        proposed_energy = mcs.get_particle_energy(i_particle)
+        mcs_check=MCState(Box(box_length,proposed_coordinates),simulation_cutoff)
+        proposed_energy = mcs_check.get_particle_energy(i_particle)
         delta_e = proposed_energy - current_energy
         accept = accept_or_reject(delta_e, beta)
         if accept:
