@@ -38,8 +38,8 @@ class MCState:
     def __init__(self,box1,cutoff):
         self.box1=box1
         self.cutoff=cutoff
-#        self.total_pair_energy=0.0
-#        self.particle_energy=0.0
+        self.total_pair_energy=0.0
+        self.particle_energy=0.0
         self.tail_correction=0.0
         self.unit_energy=0.0
     
@@ -191,7 +191,7 @@ if __name__ == "__main__":
     n_steps = 50000
     freq = 1000
 
-    num_particles = 100
+    num_particles=100
     simulation_cutoff = 3.0
     max_displacement = 0.1
     tune_displacement = True
@@ -209,7 +209,6 @@ if __name__ == "__main__":
 
     coordinates = generate_initial_state(method = build_method, num_particles = num_particles, box_length = box_length)
     mcs=MCState(Box(box_length,coordinates),simulation_cutoff)
-    print(mcs.box1.box_length)
     total_pair_energy = mcs.calculate_total_pair_energy()
     tail_correction = mcs.calculate_tail_correction()
 
@@ -225,10 +224,11 @@ if __name__ == "__main__":
         delta_e = proposed_energy - current_energy
         accept = accept_or_reject(delta_e, beta)
         if accept:
-            total_pair_energy += delta_e
+            mcs.total_pair_energy += delta_e
             n_accept += 1
-            coordinates[i_particle] += random_displacement 
-        total_energy = mcs_final.calculate_unit_energy()
+            coordinates[i_particle] += random_displacement
+             
+        total_energy = mcs.calculate_unit_energy()
         energy_array[i_step] = total_energy
 
         if np.mod(i_step + 1, freq) == 0:
