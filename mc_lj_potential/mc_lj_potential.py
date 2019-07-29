@@ -12,7 +12,6 @@ class Box:
     def __init__(self, box_length, coordinates=None):
         self.box_length=box_length
         self.coordinates=coordinates
-    
     def wrap(self, coordinates,box_length):
         """
         This is for wraping all particles in the box, updating the coordinates.
@@ -27,7 +26,6 @@ class Box:
         """
         if (coordinates is not None):
             self.coordinates = self.coordinates - self.box_length*round(self.coordinates/self.box_length)
-            
     def minimum_image_distance(self, r_i, r_j, box_length):
         """
         Computes the minimum image distance between two particles.
@@ -315,7 +313,6 @@ if __name__ == "__main__":
 
     coordinates = generate_initial_state(method = build_method, num_particles = num_particles, box_length = box_length)
     mcs=MCState(Box(box_length,coordinates),simulation_cutoff)
-    print(mcs.box1.box_length)
     total_pair_energy = mcs.calculate_total_pair_energy()
     tail_correction = mcs.calculate_tail_correction()
 

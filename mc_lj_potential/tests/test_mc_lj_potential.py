@@ -1,16 +1,14 @@
 """
 Unit and regression test for the mc_lj_potential package.
 """
-
 # Import package, test suite, and other packages as needed
 import mc_lj_potential
 import pytest
 import sys
-import os
-
-
-# Dependencies
 import numpy as np
+import random
+import os
+import math
 
 def test_mc_lj_potential_imported():
     """
@@ -35,7 +33,6 @@ def test_generate_intial_state_length():
     """
     coordinates = mc_lj_potential.generate_initial_state("random", num_particles = 100, box_length = 10.0)
     assert len(coordinates) == 100
-
 
 def test_get_particle_energy_cutoff():
     """
@@ -138,7 +135,6 @@ def test_accpet_or_reject_false():
     finally:
         np.random.seed()
 
-
 def test_adjust_displacement_large():
     """
     Test the accept_or_reject function when the movement is too large that the max_displacement should be changed into a smaller value.
@@ -147,7 +143,6 @@ def test_adjust_displacement_large():
     n_accept = 37.0
     max_displacement = 1.0
     expected_vaule = 0.8
-
     cal_max_displacement, n_trials, n_accept = mc_lj_potential.adjust_displacement(n_trials = n_trials, n_accept = n_accept, max_displacement = max_displacement)
     assert expected_vaule == cal_max_displacement
 
@@ -159,7 +154,6 @@ def test_adjust_displacement_fit():
     n_accept = 40.0
     max_displacement = 1.0
     expected_value = 1.0   
-
     cal_max_displacement, n_trials, n_accept = mc_lj_potential.adjust_displacement(n_trials = n_trials, n_accept = n_accept, max_displacement = max_displacement)
     assert expected_value == cal_max_displacement
 
@@ -171,6 +165,129 @@ def test_adjust_displacement_small():
     n_accept = 43.0
     max_displacement = 1.0
     expected_value = 1.2   
-
     cal_max_displacement, n_trials, n_accept = mc_lj_potential.adjust_displacement(n_trials = n_trials, n_accept = n_accept, max_displacement = max_displacement)
     assert expected_value == cal_max_displacement
+   
+def test_wrap_1():
+    """Tests the result of the wrap function- State 1
+    Parameters
+    ----------
+    coordinates : np.array(num_of_particles, 3)
+        A numpy array with the s, y and z coordinates of each atom in the simulation box.
+    box_length : float
+        One side of the cubic simulation box.
+    Returns
+    -------
+    coordinates : np.array
+        Determines whether the expected coordinates and calculated coordinates from the wrap function match.
+    """
+    coordinates = np.array([1, 2, 10])
+    box_length = 3.0
+    mcs = MC_LJ.Box(coordinates = coordinates, box_length = box_length)
+    expected_coordinates = [1, -1, 1]
+    mcs.wrap(coordinates = coordinates, box_length = box_length)
+    assert np.array_equal(expected_coordinates, mcs.coordinates)
+
+def test_wrap_2():
+    """Tests the result of the wrap function- State 2
+    Parameters
+    ----------
+    coordinates : np.array(num_of_particles, 3)
+        A numpy array with the s, y and z coordinates of each atom in the simulation box.
+    box_length : float
+        One side of the cubic simulation box.
+    Returns
+    -------
+    coordinates : np.array
+        Determines whether the expected coordinates and calculated coordinates from the wrap function match.
+    """
+    coordinates = np.array([-5, 12, 1.5])
+    box_length = 6.0
+    mcs = MC_LJ.Box(coordinates = coordinates, box_length = box_length)
+    expected_coordinates = [1, 0, 1.5]
+    mcs.wrap(coordinates = coordinates, box_length = box_length)
+    assert np.array_equal(expected_coordinates, mcs.coordinates)
+
+def test_minimum_image_distance_1():
+    """Test the result of the minimum_image_distance function- State 1
+    Parameters
+    ----------
+    r_a : float
+        Position of particle a
+    r_b : float
+        Position of particle b
+    box_length : float
+        One side of the cubic simulation box.
+    Returns
+    -------
+    rij2 : float
+        Square of the minimum image distance between atom pair a and b.
+    """
+    r_a = np.array([1, 2])
+    r_b = np.array([3, 5])
+    box_length = 3.0
+    mcs = MC_LJ.Box(coordinates=[r_a,r_b], box_length=box_length)
+    expected_distance = 1.0
+    calculated_distance=mcs.minimum_image_distance(r_i = r_a, r_j = r_b, box_length = box_length)
+    assert np.isclose(expected_distance, calculated_distance)
+
+def test_minimum_image_distance_2():
+    """Test the result of the minimum_image_distance function- State 2
+    Parameters
+    ----------
+    r_a : float
+        Position of particle a
+    r_b : float
+        Position of particle b
+    box_length : float
+        One side of the cubic simulation box.
+    Returns
+    -------
+    rij2 : float
+        Square of the minimum image distance between atom pair a and b.
+    """
+    r_a = np.array([0, 0, 0])
+    r_b = np.array([5, 12, 2])
+    box_length = 5
+    mcs = MC_LJ.Box(coordinates=[r_a,r_b], box_length=box_length)
+    expected_distance = 8.0
+    calculated_distance=mcs.minimum_image_distance(r_i = r_a, r_j = r_b, box_length = box_length)
+    assert np.isclose(expected_distance, calculated_distance)
+    
+def test_volume_1():
+    """Test the result of the volume function[property]- State 1
+    Parameters
+    ----------
+    box_length : float
+        One side of the cubic simulation box.
+    coordinates : np.array
+        A random set of coordinates in the box.
+    Returns
+    -------
+    volume : float
+        Volume of the cubic simulation box.
+    """
+    box_length = 5
+    mcs = MC_LJ.Box(coordinates =[[1, 2]], box_length = box_length)
+    expected_volume = 125
+    calculated_volume = mcs.volume
+    assert expected_volume == calculated_volume
+    
+def test_volume_2():
+    """Test the result of the volume function[property]- State 2
+    Parameters
+    ----------
+    box_length : float
+        One side of the cubic simulation box.
+    coordinates : np.array
+        A random set of coordinates in the box.
+    Returns
+    -------
+    volume : float
+        Volume of the cubic simulation box.
+    """
+    box_length = 12
+    mcs = MC_LJ.Box(coordinates = [[24, 36]], box_length = box_length)
+    expected_volume = 1728
+    calculated_volume = mcs.volume
+    assert expected_volume == calculated_volume
