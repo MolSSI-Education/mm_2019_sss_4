@@ -47,10 +47,11 @@ def test_total_pair_energy():
     box_length = 10.0
     box = mc_lj_potential.Box(box_length=box_length, coordinates=coordinates)
     mcs = mc_lj_potential.MCState(box, cutoff = 4.0)
-
+    
     calculated_value = mcs.calculate_total_pair_energy()
 
     assert np.isclose(calculated_value, -4.4675E+03)
+    
 
 def test_minimum_image_distance():
     """Tests if the particle is bounded with in the box
@@ -64,11 +65,15 @@ def test_minimum_image_distance():
     minimum image distance : float
 
     """
-    r_i = np.array([2.08728997, -0.60907129, -1.75467417])
-    r_j = np.array([1.91098003, 0.8518106,  2.06060399])
-    box_length = 4.0
-
-    bx = mc_lj_potential.Box(box_length)
-    calculated = bx.minimum_image_distance(r_i, r_j, box_length)
-    calculated = math.sqrt(calculated)
-    assert calculated < box_length
+    box_length = 4
+    num_particles = 10 
+    coordinates = 0.5 - np.random.rand(num_particles, 3) * box_length
+    for i in range(len(coordinates)):
+        for j in range(len(coordinates)):
+            if all(coordinates[i]!=coordinates[j]):
+                r_i = coordinates[i]
+                r_j = coordinates[j]
+                bx = mc_lj_potential.Box(box_length)
+                calculated = bx.minimum_image_distance(r_i, r_j, box_length)
+                calculated = math.sqrt(calculated)
+                assert calculated < box_length
