@@ -59,13 +59,15 @@ class Box:
             return None
         else:
             return len(self.coordinates)
+
+    #self.box_length=np.cbrt(self.num_particles / reduced_density)
             
 class MCState:
     def __init__(self,box1,cutoff):
         self.box1=box1
         self.cutoff=cutoff
-#        self.total_pair_energy=0.0
-#        self.particle_energy=0.0
+        self.total_pair_energy=0.0
+        self.particle_energy=0.0
         self.tail_correction=0.0
         self.unit_energy=0.0
     
@@ -133,7 +135,7 @@ class MCState:
         tail_correction : float
             Tail correction calculated by calculate_tail_correction()
         """
-        self.unit_energy=(self.total_pair_energy + self.tail_correction)/len(self.box1.coordinates)
+        self.unit_energy = (self.total_pair_energy + self.tail_correction)/self.box1.num_particles
         return self.unit_energy
     
     def get_particle_energy(self, i_particle):
@@ -211,7 +213,7 @@ def generate_initial_state(method = 'random', file_name = None, num_particles = 
         A numpy array with the x,y and z coordinates of each atom in the simulation box.
     """
     if method is 'random':
-        coordinates = 0.5 - np.random.rand(num_particles, 3) * box_length
+        coordinates = (0.5 - np.random.rand(num_particles, 3)) * box_length
     
     elif method is 'file':
         coordinates = np.loadtxt(file_name, skiprows = 2, usecols=(1, 2, 3))
@@ -294,12 +296,12 @@ if __name__ == "__main__":
 
     n_steps = 50000
     freq = 1000
-
-    num_particles = 100
     simulation_cutoff = 3.0
     max_displacement = 0.1
     tune_displacement = True
     build_method = 'random'
+    num_particles=100
+
     box_length = np.cbrt(num_particles / reduced_density)
     beta = 1.0 / reduced_temperature
     simulation_cutoff2 = np.power(simulation_cutoff, 2)
@@ -310,8 +312,12 @@ if __name__ == "__main__":
     #-----------------------
     # Monte Carlo Simulation
     #-----------------------
-
-    coordinates = generate_initial_state(method = build_method, num_particles = num_particles, box_length = box_length)
+    if (build_method == 'random'):
+        coordinates = generate_initial_state(method = build_method, num_particles = num_particles, box_length = box_length)
+    elif(build_method == 'file'):
+        coordinates = generate_initial_state(method = build_method, file_name='sample_config1.xyz')
+    num_particles = len(coordinates)
+    box_length = np.cbrt(num_particles / reduced_density)
     mcs=MCState(Box(box_length,coordinates),simulation_cutoff)
     total_pair_energy = mcs.calculate_total_pair_energy()
     tail_correction = mcs.calculate_tail_correction()
@@ -328,10 +334,11 @@ if __name__ == "__main__":
         delta_e = proposed_energy - current_energy
         accept = accept_or_reject(delta_e, beta)
         if accept:
-            total_pair_energy += delta_e
+            mcs.total_pair_energy += delta_e
             n_accept += 1
-            coordinates[i_particle] += random_displacement    
-        total_energy = (total_pair_energy + tail_correction) / num_particles
+            coordinates[i_particle] += random_displacement
+             
+        total_energy = mcs.calculate_unit_energy()
         energy_array[i_step] = total_energy
 
         if np.mod(i_step + 1, freq) == 0:
