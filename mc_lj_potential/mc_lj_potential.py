@@ -12,12 +12,38 @@ class Box:
     def __init__(self, box_length, coordinates=None):
         self.box_length=box_length
         self.coordinates=coordinates
-    
     def wrap(self, coordinates,box_length):
+        """
+        This is for wraping all particles in the box, updating the coordinates.
+
+        Parameters
+        ----------
+        coordinates : np.array
+            Original coordinates from the generate_initial_state function.
+        box_length : float
+            Side of cubic simulation box.
+
+        """
         if (coordinates is not None):
             self.coordinates = self.coordinates - self.box_length*round(self.coordinates/self.box_length)
-            
     def minimum_image_distance(self, r_i, r_j, box_length):
+        """
+        Computes the minimum image distance between two particles.
+
+        Parameters
+        ----------
+        r_i : float
+            Position of particle i
+        r_j : float
+            Position of particle j
+        box_length : float
+            Side of cubic simulation box.
+
+        Returns
+        -------
+        rij2 :  float
+            Square of minimum image distance between an atom pair.
+        """
         rij = r_i - r_j
         rij = rij - self.box_length * np.round(rij / self.box_length)
         rij2 = np.dot(rij, rij)
@@ -46,6 +72,22 @@ class MCState:
         self.unit_energy=0.0
     
     def calculate_total_pair_energy(self):
+        """Computes the total energy of the system.
+    
+        Parameters
+        ----------
+        coordinates : np.array(num_particles,3)
+            A numpy array with the x,y and z coordinates of each atom in the simulation box.
+        box_length : float
+            Side of cubic simulation box.
+        cutoff2: float 
+            Square of cutoff value for Lennard Jones potential.
+        
+        Returns
+        -------
+        e_total : float
+            Total energy of the system.
+        """
         self.total_pair_energy=0.0
         particle_count = len(self.box1.coordinates)
         for i_particle in range(particle_count):
@@ -58,6 +100,24 @@ class MCState:
         return self.total_pair_energy
         
     def calculate_tail_correction(self):
+        """
+        Computes the standard tail correction for Lennard Jones potential.
+
+        Parameters
+        ----------
+        box_length : float
+            Side of cubic simulation box.
+        cutoff : float
+            Cutoff value for LJ potential.
+        num_particles : integer
+            Number of particles in the simulation box.
+
+        Returns
+        -------
+        e_correction : float
+            Energy correction term to compensate for Lennard Jones cutoff.
+        """
+
         sig_by_cutoff3 = np.power(1.0 / self.cutoff, 3)
         sig_by_cutoff9 = np.power(sig_by_cutoff3, 3)
         self.tail_correction = sig_by_cutoff9 - 3.0 * sig_by_cutoff3
@@ -65,10 +125,39 @@ class MCState:
         return self.tail_correction
 
     def calculate_unit_energy(self):
-        self.unit_energy=(self.total_pair_energy + self.tail_correction)/self.box1.num_particles
+        """
+        Compute the unit energy of per particles in the system.
+
+        Parameters
+        ----------
+        total_pair_energy : float
+            Total pair energy calculated by calculate_total_pair_energy().
+        tail_correction : float
+            Tail correction calculated by calculate_tail_correction()
+        """
+        self.unit_energy = (self.total_pair_energy + self.tail_correction)/self.box1.num_particles
         return self.unit_energy
     
     def get_particle_energy(self, i_particle):
+        """
+        This function computes the energy of a particle with the rest of the system.
+    
+        Parameters
+        ----------
+        coordinates : np.array(num_particles,3)
+            A numpy array with the x,y and z coordinates of each atom in the simulation box.
+        box_length : float
+            Side of cubic simulation box.
+        i_particle : integer
+            Particle whose energy is computed.
+        cutoff2: float 
+            Square of cutoff value for Lennard Jones potential.
+        
+        Returns
+        -------
+        e_total : float
+            Total energy of particle_i.
+        """
         self.particle_energy = 0.0
         i_position = self.box1.coordinates[i_particle]
         particle_count = len(self.box1.coordinates)
@@ -82,12 +171,27 @@ class MCState:
         return self.particle_energy
     
     def lennard_jones_potential(self, rij2):
+        """
+        Computes the Lennard Jones potential between an atom pair.
+
+        Parameters
+        ----------
+        rij2 : float
+            Square of minimum image distance between an atom pair.
+
+        Returns
+        -------
+        Lennard Jones potential : float
+            Lennard Jones potential between an atom pair.    
+        """
+        
         sig_by_r6 = np.power(1 / rij2, 3)
         sig_by_r12 = np.power(sig_by_r6, 2)
         return 4.0 * (sig_by_r12  - sig_by_r6)
     
 def generate_initial_state(method = 'random', file_name = None, num_particles = None, box_length = None):
-    """ Generates initial state of the system.
+    """ 
+    Generates initial state of the system.
 ​
      Generates the initial coordinates of all the atoms in the simulation box. If the method is random, the atoms are assigned a random set of coordinates.
      If method is File, coordinates are loaded from a file.
@@ -215,7 +319,6 @@ if __name__ == "__main__":
     num_particles = len(coordinates)
     box_length = np.cbrt(num_particles / reduced_density)
     mcs=MCState(Box(box_length,coordinates),simulation_cutoff)
-
     total_pair_energy = mcs.calculate_total_pair_energy()
     tail_correction = mcs.calculate_tail_correction()
 
