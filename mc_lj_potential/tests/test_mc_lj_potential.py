@@ -112,10 +112,10 @@ def test_calculate_unit_energy(mcs):
     """
     Test calculate_unit_energy() function, will pass if the calcualted unit energy is equal to the expected value.
     """
-    mcs.calculate_total_pair_energy()
-    mcs.calculate_tail_correction()
+    total_pair_energy = mcs.calculate_total_pair_energy()
+    tail_correction = mcs.calculate_tail_correction()
     calculated_unit_energy = mcs.calculate_unit_energy()
-    assert np.isclose(calculated_unit_energy, -5.687536)
+    assert np.isclose(calculated_unit_energy, (total_pair_energy + tail_correction)/800)
 
 def test_accpet_or_reject_true():
     """
