@@ -14,6 +14,15 @@ class Box:
         self.coordinates=coordinates
     
     def wrap(self, coordinates,box_length):
+        """
+        This is for wraping all particles in the box, updating the coordinates.
+
+        Parameters
+        ----------
+        coordinates : np.array
+        
+
+        """
         if (coordinates is not None):
             self.coordinates = self.coordinates - self.box_length*round(self.coordinates/self.box_length)
             
