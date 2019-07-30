@@ -9,8 +9,12 @@ dependencies:
   - pytest
   - pytest-cov
   - codecov
+  
+    #Dependencies
+  - numpy
 
-    # Pip-only installs
+
+  # Pip-only installs
   #- pip:
-  #  - codecov
+  #- codecov
 
