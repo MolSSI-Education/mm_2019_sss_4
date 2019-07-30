@@ -20,9 +20,10 @@
 # -- Project information -----------------------------------------------------
 
 project = 'mc_lj_potential'
-copyright = ("2019, Arpit Bansal. Project structure based on the "
+copyright = ("2019, Arpit Bansal, Govinda KC, Madison Berge, Rishabh D Guha, Yuan Zhou. Project structure based on the "
              "Computational Molecular Science Python Cookiecutter version 1.0")
-author = 'Arpit Bansal'
+
+author = 'Arpit Bansal, Govinda KC, Madison Berge, Rishabh D Guha, Yuan Zhou.'
 
 # The short X.Y version
 version = ''
@@ -41,9 +42,12 @@ release = ''
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
 ]
 
+autosummary_generate = True
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
