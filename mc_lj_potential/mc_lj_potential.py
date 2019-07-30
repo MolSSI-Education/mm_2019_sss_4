@@ -9,7 +9,6 @@ Handles the primary functions
 import numpy as np
 
 class Box:
-
     def __init__(self, box_length, coordinates = None):
         self.box_length = box_length
         self.coordinates = coordinates
