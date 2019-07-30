@@ -8,6 +8,7 @@ mc_lj_potential
 ===============
 
 **mc_lj_potential**  carries out Monte Carlo simulation for Lennard Jones particles.
+
 Available techniques:
  - total pair energy
  - tail correction
@@ -17,6 +18,7 @@ Available techniques:
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
    API
    Contributors
    Acknowledgement   
