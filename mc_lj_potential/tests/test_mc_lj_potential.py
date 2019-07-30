@@ -23,7 +23,7 @@ def test_generate_initial_state_coords():
     np.random.seed(123)
     coordinates = mc_lj_potential.generate_initial_state("random", num_particles = 100, box_length = 10.0)
     try:
-        assert np.isclose(coordinates[0][0], -6.46469)
+        assert np.isclose(coordinates[0][0], -1.96469186)
     finally:
         np.random.seed()
     
