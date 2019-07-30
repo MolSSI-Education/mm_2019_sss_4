@@ -183,7 +183,7 @@ def test_wrap_1():
     """
     coordinates = np.array([1, 2, 10])
     box_length = 3.0
-    mcs = MC_LJ.Box(coordinates = coordinates, box_length = box_length)
+    mcs = mc_lj_potential.Box(coordinates = coordinates, box_length = box_length)
     expected_coordinates = [1, -1, 1]
     mcs.wrap(coordinates = coordinates, box_length = box_length)
     assert np.array_equal(expected_coordinates, mcs.coordinates)
@@ -203,7 +203,7 @@ def test_wrap_2():
     """
     coordinates = np.array([-5, 12, 1.5])
     box_length = 6.0
-    mcs = MC_LJ.Box(coordinates = coordinates, box_length = box_length)
+    mcs = mc_lj_potential.Box(coordinates = coordinates, box_length = box_length)
     expected_coordinates = [1, 0, 1.5]
     mcs.wrap(coordinates = coordinates, box_length = box_length)
     assert np.array_equal(expected_coordinates, mcs.coordinates)
@@ -226,7 +226,7 @@ def test_minimum_image_distance_1():
     r_a = np.array([1, 2])
     r_b = np.array([3, 5])
     box_length = 3.0
-    mcs = MC_LJ.Box(coordinates=[r_a,r_b], box_length=box_length)
+    mcs = mc_lj_potential.Box(coordinates=[r_a,r_b], box_length=box_length)
     expected_distance = 1.0
     calculated_distance=mcs.minimum_image_distance(r_i = r_a, r_j = r_b, box_length = box_length)
     assert np.isclose(expected_distance, calculated_distance)
@@ -249,7 +249,7 @@ def test_minimum_image_distance_2():
     r_a = np.array([0, 0, 0])
     r_b = np.array([5, 12, 2])
     box_length = 5
-    mcs = MC_LJ.Box(coordinates=[r_a,r_b], box_length=box_length)
+    mcs = mc_lj_potential.Box(coordinates=[r_a,r_b], box_length=box_length)
     expected_distance = 8.0
     calculated_distance=mcs.minimum_image_distance(r_i = r_a, r_j = r_b, box_length = box_length)
     assert np.isclose(expected_distance, calculated_distance)
@@ -268,7 +268,7 @@ def test_volume_1():
         Volume of the cubic simulation box.
     """
     box_length = 5
-    mcs = MC_LJ.Box(coordinates =[[1, 2]], box_length = box_length)
+    mcs = mc_lj_potential.Box(coordinates =[[1, 2]], box_length = box_length)
     expected_volume = 125
     calculated_volume = mcs.volume
     assert expected_volume == calculated_volume
@@ -287,7 +287,7 @@ def test_volume_2():
         Volume of the cubic simulation box.
     """
     box_length = 12
-    mcs = MC_LJ.Box(coordinates = [[24, 36]], box_length = box_length)
+    mcs = mc_lj_potential.Box(coordinates = [[24, 36]], box_length = box_length)
     expected_volume = 1728
     calculated_volume = mcs.volume
     assert expected_volume == calculated_volume
