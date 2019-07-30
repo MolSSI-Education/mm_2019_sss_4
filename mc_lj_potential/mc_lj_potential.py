@@ -51,10 +51,28 @@ class Box:
         
     @property
     def volume(self):
+        """ Property decorator  function which calculates the volume of the cubic simulation box
+        Parameters
+        ----------
+        box_length : float
+            Side of cubic simulation box.
+        Returns
+        -------
+        volume=box_length**3 : float
+        """
         return self.box_length**3
     
     @property
     def num_particles(self):
+        """ Property decorator function which calculates the number of particles in the cubic simulation box
+        Parameters
+        ----------
+        coordinates : np.array(num_particles,3)
+            A numpy array with the x,y and z coordinates of each atom in the simulation box.
+        Returns
+        -------
+        num_particles=number of particles in the simulation box : int
+        """
         if (isinstance(self.coordinates,type(None))):
             return None
         else:
