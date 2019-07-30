@@ -25,7 +25,7 @@ class Box:
 
         """
         if (coordinates is not None):
-            self.coordinates = self.coordinates - self.box_length*round(self.coordinates/self.box_length)
+            self.coordinates = self.coordinates - self.box_length*np.round(self.coordinates/self.box_length)
     def minimum_image_distance(self, r_i, r_j, box_length):
         """
         Computes the minimum image distance between two particles.
