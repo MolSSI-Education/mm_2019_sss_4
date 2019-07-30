@@ -9,9 +9,15 @@ Handles the primary functions
 import numpy as np
 
 class Box:
+
+    def __init__(self, box_length, coordinates = None):
+        self.box_length = box_length
+        self.coordinates = coordinates
+
     def __init__(self, box_length, coordinates=None):
         self.box_length=box_length
         self.coordinates=coordinates
+
     def wrap(self, coordinates,box_length):
         """
         This is for wraping all particles in the box, updating the coordinates.
@@ -192,10 +198,8 @@ class MCState:
 def generate_initial_state(method = 'random', file_name = None, num_particles = None, box_length = None):
     """ 
     Generates initial state of the system.
-​
-     Generates the initial coordinates of all the atoms in the simulation box. If the method is random, the atoms are assigned a random set of coordinates.
-     If method is File, coordinates are loaded from a file.
-​
+    Generates the initial coordinates of all the atoms in the simulation box. If the method is random, the atoms are assigned a random set of coordinates.
+    If method is File, coordinates are loaded from a file.
     Parameters
     ----------
     method : string. Either 'random' or 'File'.
@@ -229,12 +233,10 @@ def accept_or_reject(delta_e, beta):
         Energy difference between initial and updated state of the system.
     beta : float
         Inverse reduced temperature, a general constant in canonical ensemble.
-​
     Returns
     -------
     accept : boolean
         If true, trial move is accepted, else it is rejected.
-​
     """
     if delta_e < 0.0:
         accept = True

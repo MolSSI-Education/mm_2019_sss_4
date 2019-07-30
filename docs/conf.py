@@ -22,15 +22,10 @@
 project = 'mc_lj_potential'
 copyright = ("2019, Arpit Bansal, Govinda KC, Madison Berge, Rishabh D Guha, Yuan Zhou. Project structure based on the "
              "Computational Molecular Science Python Cookiecutter version 1.0")
-<<<<<<< HEAD
 
 author = 'Arpit Bansal, Govinda KC, Madison Berge, Rishabh D Guha, Yuan Zhou.'
 
 =======
-​
-author = 'Arpit Bansal, Govinda KC, Madison Berge, Rishabh D Guha, Yuan Zhou.'
-​
->>>>>>> a0a56b60ed2ae703c1f16d641f66d2d67310dddc
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
@@ -52,11 +47,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
 ]
-<<<<<<< HEAD
 
-=======
-​
->>>>>>> a0a56b60ed2ae703c1f16d641f66d2d67310dddc
 autosummary_generate = True
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
