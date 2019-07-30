@@ -114,7 +114,7 @@ def test_calculate_unit_energy(mcs):
     calculated_unit_energy = mcs.calculate_unit_energy()
     assert np.isclose(calculated_unit_energy, (total_pair_energy + tail_correction)/800)
 
-def test_accpet_or_reject_true():
+def test_accept_or_reject_true():
     """
     Test the accept_or_reject function when it is true.
     """
@@ -122,7 +122,7 @@ def test_accpet_or_reject_true():
     calculated_value1 = mc_lj_potential.accept_or_reject(-1.0,0.10)
     assert expected_vaule1 == calculated_value1
 
-def test_accpet_or_reject_false():
+def test_accept_or_reject_false():
     """
     Test the accept_or_reject function when it is False.
     """
@@ -134,6 +134,18 @@ def test_accpet_or_reject_false():
         assert expected_vaule2 == calculated_value2
     finally:
         np.random.seed()
+    
+def test_accept_or_reject_true_rand():
+    """
+    Test the accept_or_reject function when energy increase but it is still accepted.
+    """
+    np.random.seed(354)
+    expected_vaule3 = True
+    calculated_value3 = mc_lj_potential.accept_or_reject(0.1, 0.10)
+    try:
+         assert expected_vaule3 == calculated_value3
+    finally:
+         np.random.seed()    
 
 def test_adjust_displacement_large():
     """
