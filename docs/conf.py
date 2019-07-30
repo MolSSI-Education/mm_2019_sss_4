@@ -25,7 +25,7 @@ copyright = ("2019, Arpit Bansal, Govinda KC, Madison Berge, Rishabh D Guha, Yua
 
 author = 'Arpit Bansal, Govinda KC, Madison Berge, Rishabh D Guha, Yuan Zhou.'
 
-=======
+
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
