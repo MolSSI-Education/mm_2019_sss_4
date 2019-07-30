@@ -12,7 +12,7 @@ generate_initial_state
 .. code-block:: python
 
     #mc_lj.py
-    import mc_lj_potential as mci
+    import mc_lj_potential as mc
     import numpy as np
     np.random.seed(123)
     num_particles = 100
