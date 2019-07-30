@@ -1,7 +1,7 @@
-.. _tutorial:
+.. _Tutorial:
 
 ========
-tutorial
+Tutorial
 ========
 
 **mc_lj_potential** is a python package to carry out Monte Carlo simulation of Lennard Jones particles. By calling different functions in the package, users can get the total pair energy, tail correction, particle energy and unit energy of a defined system with specific cubic box size, number of particles and their coordinates.
@@ -33,14 +33,16 @@ save the script as mc_lj.py, run it, then the output is 100 random coordinates:
      ...
 
 .. note::
-    User are allow to import coordinates from a file as well. Instead of ``mc.generate_initial_state(method = 'random', num_particles = num_particles, box_length = box_length)``, use ``mc.generate_initial_state(method = 'file', box_length = box_length)``.
+    User are allow to import coordinates from a file as well. Instead of ``mc.generate_initial_state(method = 'random', 
+    num_particles = num_particles, box_length = box_length)``, use 
+    ``mc.generate_initial_state(method = 'file', box_length = box_length)``.
 
 calculate energy in the system
 ++++++++++++++++++++++++++++++
 
 In order to calculate the energy in the system, we need to initialize our box into unit box with ``wrap()`` and ``minimum_image_distance()``.
 
-..code-block:: python
+.. code-block:: python
 
     mcs = mc.Box(coordinates = coordinates, box_length = box_length)
     print(mcs.coordinates)

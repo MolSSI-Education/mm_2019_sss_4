@@ -12,6 +12,22 @@ import os
 # Dependencies
 import numpy as np
 
+def test_num_particles():
+    """
+    Test if the property of num_particles is true.
+    """
+
+    coordinates = mc_lj_potential.generate_initial_state(method = 'random', num_particles = 100, box_length = 10.0 )
+    mcs = mc_lj_potential.Box(coordinates = coordinates, box_length = 10.0)
+
+    assert mcs.num_particles == 100
+
+def test_volume():
+    coordinates = mc_lj_potential.generate_initial_state(method = 'random', num_particles = 100, box_length = 5.0 )
+    mcs = mc_lj_potential.Box(coordinates = coordinates, box_length = 5.0)
+
+    assert mcs.volume == 125
+
 def test_mc_lj_potential_imported():
     """
     Sample test, will always pass so long as import statement worked.
@@ -132,12 +148,22 @@ def test_accpet_or_reject_false():
     np.random.seed(10)
     expected_vaule2 = False
     calculated_value2 = mc_lj_potential.accept_or_reject(6.0, 0.10)
-    print(calculated_value2)
     try:
         assert expected_vaule2 == calculated_value2
     finally:
         np.random.seed()
 
+def test_accpet_or_reject_true_ran():
+    """
+    Test the accept_or_reject function when energy increase but it is still accepted.
+    """
+    np.random.seed(354)
+    expected_vaule3 = True
+    calculated_value3 = mc_lj_potential.accept_or_reject(0.1, 0.10)
+    try:
+         assert expected_vaule3 == calculated_value3
+    finally:
+         np.random.seed()
 
 def test_adjust_displacement_large():
     """

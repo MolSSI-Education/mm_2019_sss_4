@@ -22,7 +22,7 @@ Available techniques:
    API
    Contributors
    Acknowledgement   
-   tutorial
+   Tutorial
 
 Indices and tables
 ==================
