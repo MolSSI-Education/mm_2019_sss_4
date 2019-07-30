@@ -24,9 +24,9 @@ Available techniques:
    Acknowledgement   
    Tutorial
 
+
 Indices and tables
 ==================
-
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
