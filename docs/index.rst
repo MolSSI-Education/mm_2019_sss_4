@@ -21,15 +21,24 @@ mc_lj_potential
     .. |License| image:: https://img.shields.io/badge/license-BSD--3--Clause-green.svg
         :target: https://github.com/glotzerlab/hoomd-blue/blob/maint/LICENSE
 
-**mc_lj_potential**  is used for Monte Carlo simulation of fluid based on lennard jones potential. 
+
+**mc_lj_potential**  carries out Monte Carlo simulation for Lennard Jones particles.
+Available techniques:
+ - total pair energy
+ - tail correction
+ - unit energy
+ - particle energy
+ 
 .. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+   API
+   Contributors
+   Acknowledgement   
+   Tutorial
    
-
-
-
 Indices and tables
 ==================
-
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
