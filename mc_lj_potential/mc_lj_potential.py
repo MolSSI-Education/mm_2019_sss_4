@@ -14,7 +14,7 @@ class Box:
         self.coordinates=coordinates
     def wrap(self, coordinates,box_length):
         """
-        This is for wraping all particles in the box, updating the coordinates.
+        This is for wrapping all particles in the box, updating the coordinates.
 
         Parameters
         ----------
@@ -51,11 +51,13 @@ class Box:
         
     @property
     def volume(self):
-        """ Property decorator  function which calculates the volume of the cubic simulation box
+        """ Property decorator function which calculates the volume of the cubic simulation box.
+        
         Parameters
         ----------
         box_length : float
             Side of cubic simulation box.
+        
         Returns
         -------
         volume=box_length**3 : float
@@ -64,14 +66,16 @@ class Box:
     
     @property
     def num_particles(self):
-        """ Property decorator function which calculates the number of particles in the cubic simulation box
+        """ Property decorator function which calculates the number of particles in the cubic simulation box.
+        
         Parameters
         ----------
         coordinates : np.array(num_particles,3)
-            A numpy array with the x,y and z coordinates of each atom in the simulation box.
-        Returns
+            A numpy array with the x, y and z coordinates of each atom in the simulation box.
+       
+       Returns
         -------
-        num_particles=number of particles in the simulation box : int
+        num_particles=number of particles in the simulation box : integer
         """
         if (isinstance(self.coordinates,type(None))):
             return None
@@ -95,7 +99,7 @@ class MCState:
         Parameters
         ----------
         coordinates : np.array(num_particles,3)
-            A numpy array with the x,y and z coordinates of each atom in the simulation box.
+            A numpy array with the x, y and z coordinates of each atom in the simulation box.
         box_length : float
             Side of cubic simulation box.
         cutoff2: float 
@@ -144,7 +148,7 @@ class MCState:
 
     def calculate_unit_energy(self):
         """
-        Compute the unit energy of per particles in the system.
+        Computes the unit energy per particle in the system.
 
         Parameters
         ----------
@@ -152,18 +156,24 @@ class MCState:
             Total pair energy calculated by calculate_total_pair_energy().
         tail_correction : float
             Tail correction calculated by calculate_tail_correction()
+        
+        Returns
+        -------
+        unit_energy : float
+            The total unit energy per particle.
+        
         """
         self.unit_energy = (self.total_pair_energy + self.tail_correction)/self.box1.num_particles
         return self.unit_energy
     
     def get_particle_energy(self, i_particle):
         """
-        This function computes the energy of a particle with the rest of the system.
+        Computes the energy of a particle with respect to the rest of the system.
     
         Parameters
         ----------
         coordinates : np.array(num_particles,3)
-            A numpy array with the x,y and z coordinates of each atom in the simulation box.
+            A numpy array with the x, y and z coordinates of each atom in the simulation box.
         box_length : float
             Side of cubic simulation box.
         i_particle : integer
@@ -211,15 +221,15 @@ def generate_initial_state(method = 'random', file_name = None, num_particles = 
     """ 
     Generates initial state of the system.
 
-     Generates the initial coordinates of all the atoms in the simulation box. If the method is random, the atoms are assigned a random set of coordinates.
-     If method is File, coordinates are loaded from a file.
+    Generates the initial coordinates of all the atoms in the simulation box. If the method is random, the atoms are assigned a random set of coordinates.
+    If method is File, coordinates are loaded from a file.
 
     Parameters
     ----------
-    method : string. Either 'random' or 'File'.
-        Flag which is either set to random or File depending on whether we need random coordinates or load coordinates from a file.
+    method : string. Either 'random' or 'file'.
+        Flag which is either set to random or file depending on whether we need random coordinates or load coordinates from a file.
     file_name :  string. Default is None.
-        File name to load coordinates from if method is File.
+        File name to load coordinates from if method is file.
     num_particles : integer. Default is none.
         Number of particles in the simulation box.
     box_length : float. Default is None
@@ -228,7 +238,7 @@ def generate_initial_state(method = 'random', file_name = None, num_particles = 
     Returns
     -------
     coordinates : np.array(num_particles,3)
-        A numpy array with the x,y and z coordinates of each atom in the simulation box.
+        A numpy array with the x, y and z coordinates of each atom in the simulation box.
     """
     if method is 'random':
         coordinates = (0.5 - np.random.rand(num_particles, 3)) * box_length
@@ -239,7 +249,7 @@ def generate_initial_state(method = 'random', file_name = None, num_particles = 
 
 def accept_or_reject(delta_e, beta):
     """
-    Accepts or rejects a move based on the energy difference between initial and updated state along with system temperature
+    Accepts or rejects a move based on the energy difference between initial and updated state along with system temperature.
     
     Parameters
     ----------
@@ -269,10 +279,7 @@ def accept_or_reject(delta_e, beta):
 def adjust_displacement(n_trials, n_accept, max_displacement):
     """Adjusts the maximum value allowed for a displacement move.
     
-    This function adjusts the maximum displacement to obtain a suitable acceptance \
-    of trial moves. That is, when the acceptance is too high, the maximum \
-    displacement is increased and when the acceptance is too low, the \
-    maximum displacement is decreased.
+    This function adjusts the maximum displacement to obtain a suitable acceptance of trial moves. That is, when the acceptance is too high, the maximum displacement is increased and when the acceptance is too low, the maximum displacement is decreased.
     
     Parameters
     ----------
@@ -285,9 +292,9 @@ def adjust_displacement(n_trials, n_accept, max_displacement):
     
     Returns
     -------
-    n_trials: int
+    n_trials: integer
         Number of trials. Updated to zero if maximum displacement is updated.
-    n_accept: int
+    n_accept: integer
         Number of trials. Updated to zero if maximum displacement is updated.
     max_displacemnt: float
         Maximum displacement allowed for any step in the simulation. 
