@@ -5,13 +5,9 @@ dependencies:
   - python
   - pip
 
-    # Testing
-  
-    #Dependencies
+  # Dependencies
   - numpy
 
-
-  # Pip-only installs
+    # Pip-only installs
   #- pip:
-  #- codecov
-
+  #  - codecov
