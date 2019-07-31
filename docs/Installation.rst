@@ -1,4 +1,3 @@
-.. _Installation::
 
 Installation
 ============
@@ -12,6 +11,7 @@ To install our package, users can clone it from GitHub:
 There will come a new folder named *mm_2019_sss_4* in the users' path.
 
 .. code-block:: bash
+
     $ cd mm_2019_sss_4
     $ pip install -e .
 
