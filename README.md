@@ -14,7 +14,7 @@ https://mm-2019-sss.readthedocs.io/en/latest/
 
 ### Copyright
 
-Copyright (c) 2019, Arpit Bansal, Govinda KC, Madison Berger, Rishabh D Guha, Yuan Zhou
+Copyright (c) 2019, Arpit Bansal, Govinda KC, Madison Berger, Rishabh D Guha, Yuan Zhou.
 
 
 #### Acknowledgements
