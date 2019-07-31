@@ -6,6 +6,7 @@ mc_lj_potential
 [![codecov](https://codecov.io/gh/MolSSI-Education/mm_2019_sss_4/commit/0609b0eb73fd1ed49364cc6b098d436d85c96187/graph/badge.svg)](https://codecov.io/gh/MolSSI-Education/mm_2019_sss_4/tree/master/mc_lj_potential/)
 
 A python package to carry out Monte Carlo simulation of Lennard Jones particles.
+https://mm-2019-sss.readthedocs.io/en/latest/
 
 ### Copyright
 
