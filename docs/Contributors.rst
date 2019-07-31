@@ -19,12 +19,12 @@ Govinda KC
 
 Madison Berger
   | madisonberger@my.unt.edu
-  | University: University of North Texas
+  | University of North Texas
 
 
 Rishabh D Guha
   | rdguha@ncsu.edu
-  | UnivNorth Carolina State University
+  | North Carolina State University
 
 
 Yuan Zhou
