@@ -23,6 +23,7 @@ Available techniques:
    Contributors
    Acknowledgement   
    Tutorial
+   Installation
    
 Indices and tables
 ==================
