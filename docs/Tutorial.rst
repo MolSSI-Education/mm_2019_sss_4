@@ -4,9 +4,9 @@
 Tutorial
 ========
 
-**mc_lj_potential** is a python package to carry out Monte Carlo simulation of Lennard Jones particles. By calling different functions in the package, users can get the total pair energy, tail correction, particle energy and unit energy of a defined system with specific cubic box size, number of particles and their coordinates.
+**mc_lj_potential** is a python package that carries out Monte Carlo simulation of Lennard Jones particles. By calling different functions in the package, users can get the total pair energy, tail correction, particle energy and unit energy of a defined system with specific cubic box size, number of particles and their coordinates.
 
-generate_initial_state
+Generate_initial_state
 ++++++++++++++++++++++
 
 .. code-block:: python
@@ -22,9 +22,9 @@ generate_initial_state
 
 .. note::
     
-    Attention: The ``np.random.seed(123)`` here is used to make sure users can get the same results by following  the tutorials below. There is no need to generate the random seed forcely in users' simulation.
+    Attention: The ``np.random.seed(123)`` here is used to make sure users can get the same results by following the tutorials below. There is no need to generate the random seed forcely in users' simulation.
  
-save the script as mc_lj.py, run it, then the output is 100 random coordinates:
+Save the script as mc_lj.py, run it, then the output is 100 random coordinates:
 
 .. code-block:: bash
 
@@ -40,11 +40,11 @@ save the script as mc_lj.py, run it, then the output is 100 random coordinates:
 
 .. note::
 
-    User are allow to import coordinates from a file as well. Instead of ``mc.generate_initial_state(method = 'random', 
+    Users are allowed to import coordinates from a file as well. Instead of ``mc.generate_initial_state(method = 'random', 
     num_particles = num_particles, box_length = box_length)``, use 
     ``mc.generate_initial_state(method = 'file', box_length = box_length)``.
 
-calculate energy in the system
+Calculate energy in the system
 ++++++++++++++++++++++++++++++
 
 In order to calculate the energy in the system, we need to initialize our box into unit box with ``wrap()`` and ``minimum_image_distance()``.
@@ -54,7 +54,7 @@ In order to calculate the energy in the system, we need to initialize our box in
     box = mc.Box(coordinates = coordinates, box_length = box_length)
     print(box.coordinates)
 
-add this into mc_lj.py, run it:
+Add this into mc_lj.py and run it:
 
 .. code-block:: bash
 
@@ -68,9 +68,9 @@ add this into mc_lj.py, run it:
      [-4.81551374e+00 -4.81827587e+00 -5.84400959e+00]
      ...
 
-it will update our coordinates into the box.
+This will update our coordinates into the box.
 
-calculate total pair energy
+Calculate total pair energy
 ---------------------------
 
 .. code-block:: python
@@ -87,7 +87,7 @@ The output is:
     total pair energy of the system is 18677707323853.145
 
 
-calculate tail correction
+Calculate tail correction
 -------------------------
 
 .. code-block:: python
@@ -103,7 +103,7 @@ The output is:
      tail correction of the system is -3.101388808502446
 
 
-calculate unit energy
+Calculate unit energy
 ---------------------
 
 .. code-block:: python
@@ -119,7 +119,7 @@ The output is:
     unit energy of the system is 186777073238.50043
 
 
-get particle energy
+Get particle energy
 -------------------
 
 For example, the particle energy of the first particle can be obtained by ``mcs.get_particle_energy(0)`` where the **index 0** means the first particle in the system. 
