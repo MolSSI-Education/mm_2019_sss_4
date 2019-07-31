@@ -222,7 +222,7 @@ def generate_initial_state(method = 'random', file_name = None, num_particles = 
     Generates initial state of the system.
 
     Generates the initial coordinates of all the atoms in the simulation box. If the method is random, the atoms are assigned a random set of coordinates.
-    If method is File, coordinates are loaded from a file.
+    If method is file, coordinates are loaded from a file.
 
     Parameters
     ----------
